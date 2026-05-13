@@ -42,7 +42,7 @@ async function getAudiusHost(){
   const data = await res.json();
 
   if(!data.data || !data.data.length){
-    throw new Error("Host musik tidak ditemukan");
+    throw new Error("Audius host tidak ditemukan");
   }
 
   audiusHost = data.data[0];
@@ -75,7 +75,7 @@ function saveSong(song, songs){
   localStorage.setItem("currentArtist", getArtist(song));
   localStorage.setItem("currentImg", image);
   localStorage.setItem("currentTime", "0");
-  localStorage.setItem("source", "online");
+  localStorage.setItem("source", "audius");
   localStorage.setItem("songList", JSON.stringify(songs || currentSongs));
 }
 
@@ -121,7 +121,7 @@ async function openPlayer(song){
   localStorage.setItem("currentSong", streamUrl);
 
   window.location.href =
-    "player.html?source=online" +
+    "player.html?source=audius" +
     "&id=" + encodeURIComponent(song.id) +
     "&song=" + encodeURIComponent(streamUrl) +
     "&title=" + encodeURIComponent(localStorage.getItem("currentTitle")) +
@@ -130,8 +130,8 @@ async function openPlayer(song){
 }
 
 async function loadTrending(){
-  sectionTitle.innerText = "Rekomendasi Untukmu";
-  onlineResults.innerHTML = `<h2 style="padding:20px;">Loading rekomendasi...</h2>`;
+  sectionTitle.innerText = "Trending Audius";
+  onlineResults.innerHTML = `<h2 style="padding:20px;">Loading trending...</h2>`;
 
   try{
     const host = await getAudiusHost();
@@ -140,12 +140,12 @@ async function loadTrending(){
     renderSongs(data.data || []);
   }catch(err){
     console.log(err);
-    onlineResults.innerHTML = `<h2 style="padding:20px;">API musik error</h2>`;
+    onlineResults.innerHTML = `<h2 style="padding:20px;">Audius API Error</h2>`;
   }
 }
 
 async function searchSongs(query){
-  sectionTitle.innerText = "Hasil Pencarian";
+  sectionTitle.innerText = "Hasil Pencarian Audius";
   onlineResults.innerHTML = `<h2 style="padding:20px;">Loading...</h2>`;
 
   try{
@@ -155,7 +155,7 @@ async function searchSongs(query){
     renderSongs(data.data || []);
   }catch(err){
     console.log(err);
-    onlineResults.innerHTML = `<h2 style="padding:20px;">Pencarian musik error</h2>`;
+    onlineResults.innerHTML = `<h2 style="padding:20px;">Pencarian Audius error</h2>`;
   }
 }
 
@@ -182,32 +182,32 @@ function setupMiniPlayer(){
     miniWaveLength = 0;
   }
 
-  const song = localStorage.getItem("currentSong");
+  const defaultCover = localStorage.getItem("defaultCover") || "logo.jpg";
+
+  const song = localStorage.getItem("currentSong") || "";
   const title = localStorage.getItem("currentTitle") || "Belum ada lagu";
   const artist = localStorage.getItem("currentArtist") || "Pilih lagu";
-  const defaultCover = "logotdt.jpg";
+  let img = localStorage.getItem("currentImg") || defaultCover;
 
-let img = localStorage.getItem("currentImg");
-
-if(!img || img === "null" || img === "undefined"){
-  img = defaultCover;
-}
-
-miniCover.src = img && img.trim() !== ""
-  ? img
-  : "logotdt.jpg";
+  if(!img || img === "null" || img === "undefined"){
+    img = defaultCover;
+  }
 
   const savedTime = parseFloat(localStorage.getItem("currentTime") || "0");
 
   miniTitle.innerText = title;
   miniArtist.innerText = artist;
+  miniCover.src = img;
 
   if(song){
     miniAudio.src = song;
+    miniAudio.load();
+
     miniAudio.addEventListener("loadedmetadata", async () => {
       if(savedTime && savedTime < miniAudio.duration){
         miniAudio.currentTime = savedTime;
       }
+
       miniDuration.innerText = formatTime(miniAudio.duration);
 
       if(localStorage.getItem("isPlaying") === "true"){
@@ -219,6 +219,8 @@ miniCover.src = img && img.trim() !== ""
         }
       }
     }, {once:true});
+  }else{
+    miniPlay.innerText = "▶";
   }
 }
 
@@ -274,7 +276,7 @@ miniBack.onclick = () => {
   const song = localStorage.getItem("currentSong") || "";
   const title = localStorage.getItem("currentTitle") || "";
   const artist = localStorage.getItem("currentArtist") || "";
-  const img = localStorage.getItem("currentImg") || "logotdt.jpg";
+  const img = localStorage.getItem("currentImg") || "";
 
   if(!song){
     miniBack.classList.add("mini-error");
@@ -283,7 +285,7 @@ miniBack.onclick = () => {
   }
 
   window.location.href =
-    "player.html?source=online" +
+    "player.html?source=audius" +
     "&id=" + encodeURIComponent(id) +
     "&song=" + encodeURIComponent(song) +
     "&title=" + encodeURIComponent(title) +
@@ -327,3 +329,12 @@ refreshBtn.onclick = () => {
 
 setupMiniPlayer();
 loadTrending();
+
+
+window.addEventListener("pageshow", () => {
+  const song = localStorage.getItem("currentSong") || "";
+  if(song && miniAudio.src !== song){
+    miniAudio.src = song;
+    miniAudio.load();
+  }
+});

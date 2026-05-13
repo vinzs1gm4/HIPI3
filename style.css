@@ -195,7 +195,6 @@ body{
   right:20px;
   display:flex;
   align-items:center;
-  justify-content:space-between;
   gap:12px;
   padding:12px 15px;
   border-radius:15px;
@@ -485,6 +484,12 @@ body{
 }
 
 
+/* ===== HIPI3 FIX: profile logout + mobile menu ===== */
+
+.user-box{
+  justify-content:space-between;
+}
+
 .user-left{
   display:flex;
   align-items:center;
@@ -493,18 +498,29 @@ body{
 }
 
 .logout-icon{
+  width:46px;
+  min-width:46px;
+  min-height:46px;
+  border-radius:14px;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:4px;
-
+  gap:2px;
   text-decoration:none;
+  background:rgba(255,77,77,0.08);
+  border:1px solid rgba(255,77,77,0.25);
+  transition:0.25s;
+}
+
+.logout-icon:hover{
+  background:rgba(255,77,77,0.16);
+  transform:scale(1.05);
 }
 
 .logout-svg{
-  width:24px;
-  height:24px;
+  width:22px;
+  height:22px;
 }
 
 .logout-svg path,
@@ -512,17 +528,16 @@ body{
   stroke:#ff4d4d;
   stroke-width:2;
   fill:none;
+  stroke-linejoin:round;
+  stroke-linecap:round;
 }
 
 .logout-icon span{
-  font-size:11px;
   color:#ff4d4d;
+  font-size:10px;
   font-weight:bold;
+  line-height:1;
 }
-
-
-
-/* ===== HIPI3 MOBILE + PROFILE FIX, keep custom text ===== */
 
 .sidebar nav a{
   display:flex;
@@ -530,37 +545,10 @@ body{
   gap:10px;
 }
 
-.sidebar nav a::before{
+.menu-icon{
   min-width:20px;
-  text-align:center;
-  font-size:18px;
-}
-
-#homeMenu::before{
-  content:"⌂";
-}
-
-#playlistMenu::before{
-  content:"♫";
-}
-
-#favoriteMenu::before{
-  content:"♡";
-}
-
-.logout-icon{
-  width:50px;
-  min-width:50px;
-  min-height:48px;
-  border-radius:14px;
-  background:rgba(255,77,77,0.08);
-  border:1px solid rgba(255,77,77,0.25);
-}
-
-.logout-svg path,
-.logout-svg circle{
-  stroke-linecap:round;
-  stroke-linejoin:round;
+  display:inline-flex;
+  justify-content:center;
 }
 
 @media(max-width:768px){
@@ -575,13 +563,17 @@ body{
   }
 
   .logo-title h2{
-  display:none;
-}
+    display:none;
+  }
 
   .sidebar-logo{
     width:62px;
     height:62px;
     border-radius:18px;
+  }
+
+  .search-box{
+    display:none;
   }
 
   .sidebar nav{
@@ -593,18 +585,19 @@ body{
     padding:13px 8px;
     justify-content:center;
     border-radius:16px;
-    font-size:11px;
+    font-size:12px;
     background:#242424;
     flex-direction:column;
     gap:4px;
   }
 
-  .sidebar nav a:hover{
-    transform:none;
+  .menu-icon{
+    font-size:20px;
   }
 
-  .sidebar nav a::before{
-    font-size:20px;
+  .menu-text{
+    display:block;
+    font-size:11px;
   }
 
   .user-box{
@@ -639,18 +632,13 @@ body{
   .logout-icon{
     width:60px;
     min-width:60px;
-    min-height:42px;
+    min-height:38px;
     border-radius:12px;
   }
 
   .logout-svg{
     width:18px;
     height:18px;
-  }
-
-  .logout-icon span{
-    display:block;
-    font-size:10px;
   }
 
   .main-content{
@@ -730,5 +718,180 @@ body{
 
   #miniBack{
     border-radius:14px;
+  }
+}
+
+
+/* ===== HIPI3 FIX: portrait mobile sidebar tetap lengkap ===== */
+
+@media(max-width:768px){
+
+  .sidebar{
+    width:150px !important;
+    padding:18px 10px !important;
+    overflow-y:auto;
+  }
+
+  .main-content{
+    margin-left:150px !important;
+    width:calc(100% - 150px) !important;
+  }
+
+  .mini-player{
+    left:150px !important;
+  }
+
+  .logo-title{
+    justify-content:flex-start !important;
+    gap:8px !important;
+    margin-bottom:18px !important;
+  }
+
+  .logo-title h2{
+    display:block !important;
+    font-size:20px !important;
+  }
+
+  .sidebar-logo{
+    width:45px !important;
+    height:45px !important;
+    border-radius:14px !important;
+  }
+
+  .search-box{
+    display:block !important;
+  }
+
+  .search-box input{
+    display:block !important;
+    width:100% !important;
+    padding:10px 12px !important;
+    font-size:12px !important;
+    margin-bottom:18px !important;
+  }
+
+  .sidebar nav{
+    display:flex !important;
+    flex-direction:column !important;
+    gap:10px !important;
+    margin-top:0 !important;
+  }
+
+  .sidebar nav a{
+    display:flex !important;
+    flex-direction:row !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    gap:8px !important;
+    padding:12px 10px !important;
+    font-size:13px !important;
+    border-radius:14px !important;
+    background:linear-gradient(to right, #70513c, #1a1a1a) !important;
+  }
+
+  .menu-icon{
+    font-size:16px !important;
+    min-width:18px !important;
+  }
+
+  .menu-text{
+    display:inline !important;
+    font-size:13px !important;
+  }
+
+  .user-box{
+    left:10px !important;
+    right:10px !important;
+    bottom:16px !important;
+    padding:9px 8px !important;
+    flex-direction:row !important;
+    justify-content:space-between !important;
+    gap:6px !important;
+  }
+
+  .user-left{
+    flex-direction:row !important;
+    gap:6px !important;
+  }
+
+  .user-icon{
+    width:36px !important;
+    height:36px !important;
+  }
+
+  #usernameText{
+    display:block !important;
+    font-size:12px !important;
+    max-width:48px !important;
+  }
+
+  .logout-icon{
+    width:42px !important;
+    min-width:42px !important;
+    min-height:42px !important;
+  }
+
+  .logout-svg{
+    width:18px !important;
+    height:18px !important;
+  }
+
+  .logout-icon span{
+    font-size:9px !important;
+  }
+
+  .hero{
+    margin:18px 14px !important;
+    padding:30px 22px !important;
+  }
+
+  .hero h1{
+    font-size:32px !important;
+  }
+
+  .hero p{
+    font-size:16px !important;
+  }
+
+  .section-head{
+    padding:0 14px !important;
+  }
+
+  .online-title{
+    font-size:25px !important;
+  }
+
+  .music-container{
+    grid-template-columns:1fr !important;
+    padding:22px 14px 135px !important;
+  }
+}
+
+@media(max-width:430px){
+
+  .sidebar{
+    width:140px !important;
+  }
+
+  .main-content{
+    margin-left:140px !important;
+    width:calc(100% - 140px) !important;
+  }
+
+  .mini-player{
+    left:140px !important;
+  }
+
+  .logo-title h2{
+    font-size:18px !important;
+  }
+
+  .sidebar nav a{
+    font-size:12px !important;
+    padding:11px 8px !important;
+  }
+
+  .search-box input{
+    font-size:11px !important;
   }
 }

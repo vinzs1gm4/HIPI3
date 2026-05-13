@@ -14,13 +14,13 @@
     </div>
 
     <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Cari musik online...">
+      <input type="text" id="searchInput" placeholder="Cari musik Audius...">
     </div>
 
     <nav>
-      <a href="#" id="homeMenu">Home</a>
-      <a href="#" id="playlistMenu">Playlist</a>
-      <a href="#" id="favoriteMenu">Favorite</a>
+      <a href="#" id="homeMenu"><span class="menu-icon">⌂</span><span class="menu-text">Home</span></a>
+      <a href="#" id="playlistMenu"><span class="menu-icon">♫</span><span class="menu-text">Playlist</span></a>
+      <a href="#" id="favoriteMenu"><span class="menu-icon">♡</span><span class="menu-text">Favorite</span></a>
     </nav>
 
     <div class="user-box">
@@ -29,28 +29,25 @@
         <span id="usernameText">Tamu</span>
       </div>
 
-      <a href="index.html" class="logout-icon" title="Logout">
-
-  <svg viewBox="0 0 24 24" class="logout-svg">
-    <path d="M6 3H18V21H6V3Z"/>
-    <path d="M14 12H10"/>
-    <circle cx="15.5" cy="12" r="0.7"/>
-  </svg>
-
-  <span>Keluar</span>
-
-</a>
+      <a href="index.html" class="logout-icon" title="Keluar">
+        <svg viewBox="0 0 24 24" class="logout-svg">
+          <path d="M7 3H17V21H7V3Z"></path>
+          <path d="M14.5 12H12.5"></path>
+          <circle cx="15" cy="12" r="0.7"></circle>
+        </svg>
+        <span>Keluar</span>
+      </a>
     </div>
   </div>
 
   <main class="main-content">
     <section class="hero">
       <h1>Temukan Musik Favoritmu</h1>
-      <p>Dengarkan musik secara gratis untuk memperbaiki moodmu</p>
+      <p>Streaming full lagu dari Audius langsung di HIPI3</p>
     </section>
 
     <div class="section-head">
-      <h2 id="sectionTitle" class="online-title">Rekomendasi Untukmu</h2>
+      <h2 id="sectionTitle" class="online-title">Trending Audius</h2>
       <button id="refreshBtn" class="small-btn">Refresh</button>
     </div>
 
@@ -58,11 +55,11 @@
   </main>
 
   <div class="mini-player" id="miniPlayer">
-    <img id="miniCover" src="logotdt.jpg" alt="Cover">
+    <img id="miniCover" src="" alt="Cover">
 
     <div class="mini-info">
       <h4 id="miniTitle">Belum ada lagu</h4>
-      <p id="miniArtist">Pilih lagu</p>
+      <p id="miniArtist">Pilih lagu dari Audius</p>
     </div>
 
     <div class="mini-controls">
@@ -91,6 +88,6 @@
     }
   </script>
 
-  <script src="online-search.js"></script>
+<script src="online-search.js"></script>
 </body>
 </html>

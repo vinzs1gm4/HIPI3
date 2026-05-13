@@ -5,7 +5,7 @@ let audiusHost = "";
 
 const song = params.get("song") || localStorage.getItem("currentSong") || "";
 const title = params.get("title") || localStorage.getItem("currentTitle") || "Tidak ada judul";
-const artist = params.get("artist") || localStorage.getItem("currentArtist") || "Online";
+const artist = params.get("artist") || localStorage.getItem("currentArtist") || "Audius";
 const img = params.get("img") || localStorage.getItem("currentImg") || "";
 const songId = params.get("id") || localStorage.getItem("currentSongId") || "";
 
@@ -40,7 +40,7 @@ async function getAudiusHost(){
   const data = await res.json();
 
   if(!data.data || !data.data.length){
-    throw new Error("Host musik tidak ditemukan");
+    throw new Error("Audius host tidak ditemukan");
   }
 
   audiusHost = data.data[0];
@@ -70,7 +70,7 @@ function saveCurrent(data){
   localStorage.setItem("currentArtist", data.artist || "Audius");
   localStorage.setItem("currentImg", data.img || "");
   localStorage.setItem("currentSongId", data.id || "");
-  localStorage.setItem("source", "online");
+  localStorage.setItem("source", "audius");
 }
 
 function setupWave(){
@@ -165,7 +165,7 @@ async function playTrack(track){
   });
 
   window.location.href =
-    "player.html?source=online" +
+    "player.html?source=audius" +
     "&id=" + encodeURIComponent(track.id) +
     "&song=" + encodeURIComponent(stream) +
     "&title=" + encodeURIComponent(newTitle) +
@@ -264,6 +264,24 @@ favoriteBtn.onclick = () => {
 playlistBtn.onclick = () => {
   if(toggleStorage("myPlaylist")) updateActionButtons();
 };
+
+
+const backHomeBtn = document.getElementById("backHomeBtn");
+
+if(backHomeBtn){
+  backHomeBtn.onclick = (e) => {
+    e.preventDefault();
+
+    localStorage.setItem("currentTime", audio.currentTime || 0);
+    localStorage.setItem("isPlaying", audio.paused ? "false" : "true");
+
+    if(document.referrer && document.referrer.includes("home.html")){
+      history.back();
+    }else{
+      window.location.href = "home.html";
+    }
+  };
+}
 
 setupWave();
 setupPlayer();
