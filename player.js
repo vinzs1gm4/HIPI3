@@ -5,7 +5,7 @@ let audiusHost = "";
 
 const song = params.get("song") || localStorage.getItem("currentSong") || "";
 const title = params.get("title") || localStorage.getItem("currentTitle") || "Tidak ada judul";
-const artist = params.get("artist") || localStorage.getItem("currentArtist") || "Audius";
+const artist = params.get("artist") || localStorage.getItem("currentArtist") || "Online";
 const img = params.get("img") || localStorage.getItem("currentImg") || "";
 const songId = params.get("id") || localStorage.getItem("currentSongId") || "";
 
@@ -40,7 +40,7 @@ async function getAudiusHost(){
   const data = await res.json();
 
   if(!data.data || !data.data.length){
-    throw new Error("Audius host tidak ditemukan");
+    throw new Error("Host musik tidak ditemukan");
   }
 
   audiusHost = data.data[0];
@@ -70,7 +70,7 @@ function saveCurrent(data){
   localStorage.setItem("currentArtist", data.artist || "Audius");
   localStorage.setItem("currentImg", data.img || "");
   localStorage.setItem("currentSongId", data.id || "");
-  localStorage.setItem("source", "audius");
+  localStorage.setItem("source", "online");
 }
 
 function setupWave(){
@@ -165,7 +165,7 @@ async function playTrack(track){
   });
 
   window.location.href =
-    "player.html?source=audius" +
+    "player.html?source=online" +
     "&id=" + encodeURIComponent(track.id) +
     "&song=" + encodeURIComponent(stream) +
     "&title=" + encodeURIComponent(newTitle) +
@@ -210,7 +210,6 @@ audio.addEventListener("ended", async () => {
 
 function getCurrentTrackData(){
   const id = localStorage.getItem("currentSongId");
-
   const fullTrack = playlist.find(item => String(item.id) === String(id));
 
   const fallbackTrack = {
@@ -227,9 +226,7 @@ function toggleStorage(key){
   let list = JSON.parse(localStorage.getItem(key) || "[]");
   const id = localStorage.getItem("currentSongId");
 
-  if(!id){
-    return false;
-  }
+  if(!id) return false;
 
   const exists = list.some(item => String(item.id) === String(id));
 
@@ -250,23 +247,22 @@ function storageHasSong(key){
 }
 
 function updateActionButtons(){
-  favoriteBtn.classList.toggle("active", storageHasSong("favorites"));
-  playlistBtn.classList.toggle("active", storageHasSong("myPlaylist"));
+  const isFav = storageHasSong("favorites");
+  const isPlaylist = storageHasSong("myPlaylist");
 
-  favoriteBtn.innerText = storageHasSong("favorites") ? "♥ Favorite" : "♡ Favorite";
-  playlistBtn.innerText = storageHasSong("myPlaylist") ? "✓ Playlist" : "＋ Playlist";
+  favoriteBtn.classList.toggle("active", isFav);
+  playlistBtn.classList.toggle("active", isPlaylist);
+
+  favoriteBtn.innerText = isFav ? "♥ Favorite" : "♡ Favorite";
+  playlistBtn.innerText = isPlaylist ? "✓ Playlist" : "＋ Playlist";
 }
 
 favoriteBtn.onclick = () => {
-  if(toggleStorage("favorites")){
-    updateActionButtons();
-  }
+  if(toggleStorage("favorites")) updateActionButtons();
 };
 
 playlistBtn.onclick = () => {
-  if(toggleStorage("myPlaylist")){
-    updateActionButtons();
-  }
+  if(toggleStorage("myPlaylist")) updateActionButtons();
 };
 
 setupWave();
