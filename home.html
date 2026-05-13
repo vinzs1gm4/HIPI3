@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIPI3 Music</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo-title">
+      <img src="logo.jpg" class="sidebar-logo" alt="Logo HIPI3">
+      <h2>HIPI3</h2>
+    </div>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Cari musik online...">
+    </div>
+
+    <nav>
+      <a href="#" id="homeMenu">Home</a>
+      <a href="#" id="playlistMenu">Playlist</a>
+      <a href="#" id="favoriteMenu">Favorite</a>
+    </nav>
+
+    <div class="user-box">
+      <div class="user-left">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="user-icon" alt="User">
+        <span id="usernameText">Tamu</span>
+      </div>
+
+      <a href="index.html" class="logout-icon" title="Logout">
+
+  <svg viewBox="0 0 24 24" class="logout-svg">
+    <path d="M6 3H18V21H6V3Z"/>
+    <path d="M14 12H10"/>
+    <circle cx="15.5" cy="12" r="0.7"/>
+  </svg>
+
+  <span>Keluar</span>
+
+</a>
+</a>
+    </div>
+  </div>
+
+  <main class="main-content">
+    <section class="hero">
+      <h1>Temukan Musik Favoritmu</h1>
+      <p>Dengarkan musik secara gratis untuk memperbaiki moodmu</p>
+    </section>
+
+    <div class="section-head">
+      <h2 id="sectionTitle" class="online-title">Rekomendasi Untukmu</h2>
+      <button id="refreshBtn" class="small-btn">Refresh</button>
+    </div>
+
+    <section class="music-container" id="onlineResults"></section>
+  </main>
+
+  <div class="mini-player" id="miniPlayer">
+    <img id="miniCover" src="" alt="Cover">
+
+    <div class="mini-info">
+      <h4 id="miniTitle">Belum ada lagu</h4>
+      <p id="miniArtist">Pilih lagu dari Audius</p>
+    </div>
+
+    <div class="mini-controls">
+      <button id="miniBack" title="Buka player besar">⌂</button>
+      <button id="miniPlay">▶</button>
+    </div>
+
+    <span id="miniCurrent" class="mini-time">0:00</span>
+
+    <div class="mini-wave" id="miniWave">
+      <svg viewBox="0 0 600 60" class="mini-wave-svg">
+        <path id="miniWaveBase" d="M0 30 C40 10,80 10,120 30 S200 50,240 30 S320 10,360 30 S440 50,480 30 S560 10,600 30" class="mini-wave-base" />
+        <path id="miniWaveFill" d="M0 30 C40 10,80 10,120 30 S200 50,240 30 S320 10,360 30 S440 50,480 30 S560 10,600 30" class="mini-wave-fill" />
+      </svg>
+    </div>
+
+    <span id="miniDuration" class="mini-time">0:00</span>
+
+    <audio id="miniAudio"></audio>
+  </div>
+
+  <script>
+    const username = localStorage.getItem("username");
+    if(username){
+      document.getElementById("usernameText").innerText = username;
+    }
+  </script>
+
+  <script src="online-search.js"></script>
+</body>
+</html>

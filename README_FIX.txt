@@ -1,0 +1,1 @@
+Jalankan lewat Live Server/http://127.0.0.1:5500, bukan file:///. Kalau muncul Video tidak tersedia, video YouTube tersebut memang tidak mengizinkan embed. Ganti videoId di online-search.js dengan video lain yang bisa di-embed.

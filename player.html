@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HIPI3 Player</title>
+  <link rel="stylesheet" href="player.css">
+</head>
+<body>
+  <div class="player-container">
+    <a href="home.html" class="back-btn">← Kembali</a>
+
+    <img id="cover" class="cover" alt="Cover lagu">
+    <h1 id="title">Memuat lagu...</h1>
+    <p id="artist" class="artist-text">Audius</p>
+
+    <audio id="audio"></audio>
+
+    <div class="wave-progress" id="waveProgress">
+      <svg viewBox="0 0 600 80" class="wave-svg">
+        <path id="waveBase" d="M0 40 C40 10,80 10,120 40 S200 70,240 40 S320 10,360 40 S440 70,480 40 S560 10,600 40" class="wave-base" />
+        <path id="waveFill" d="M0 40 C40 10,80 10,120 40 S200 70,240 40 S320 10,360 40 S440 70,480 40 S560 10,600 40" class="wave-fill" />
+      </svg>
+    </div>
+
+    <div class="time">
+      <span id="current">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+
+    <div class="controls">
+      <button id="prev" title="Sebelumnya">❮❮</button>
+      <button id="play" title="Play/Pause">▶</button>
+      <button id="next" title="Berikutnya">❯❯</button>
+    </div>
+
+    <div class="extra-controls">
+      <button id="favoriteBtn">♡ Favorite</button>
+      <button id="playlistBtn">＋ Playlist</button>
+    </div>
+  </div>
+
+  <script src="player.js"></script>
+</body>
+</html>

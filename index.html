@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Music App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+  <div class="login-container">
+    <img src="logo.jpg" class="logo" alt="Logo HIPI3">
+    <h1>HIPI3</h1>
+    <p>Login untuk mendengarkan musik favoritmu</p>
+
+    <form onsubmit="login(event)">
+      <input type="text" id="username" placeholder="Username" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit" class="login-btn">Masuk</button>
+    </form>
+
+    <div class="divider"><span>atau</span></div>
+
+    <a href="home.html" class="google-btn" onclick="localStorage.setItem('username','Google User')">
+      <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" class="btn-icon" alt="Google">
+      Lanjutkan dengan Google
+    </a>
+
+    <a href="home.html" class="guest-btn" onclick="localStorage.setItem('username','Tamu')">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" class="btn-icon" alt="Guest">
+      Masuk sebagai Tamu
+    </a>
+  </div>
+
+  <script>
+    function login(event){
+      event.preventDefault();
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if(user === "admin" && pass === "admin"){
+        localStorage.setItem("username", "Admin");
+        window.location.href = "home.html";
+      }else{
+        alert("Username atau password salah!");
+      }
+    }
+  </script>
+</body>
+</html>
