@@ -173,6 +173,63 @@ function renderPlaylist(){
   renderSongs(playlist);
 }
 
+
+function syncMiniPlayerFromStorage(autoPlay = false){
+  const defaultCover = localStorage.getItem("defaultCover") || "logo.jpg";
+
+  const song = localStorage.getItem("currentSong") || "";
+  const title = localStorage.getItem("currentTitle") || "Belum ada lagu";
+  const artist = localStorage.getItem("currentArtist") || "Pilih lagu";
+  let img = localStorage.getItem("currentImg") || defaultCover;
+  const savedTime = parseFloat(localStorage.getItem("currentTime") || "0");
+
+  if(!img || img === "null" || img === "undefined"){
+    img = defaultCover;
+  }
+
+  miniTitle.innerText = title;
+  miniArtist.innerText = artist;
+  miniCover.src = img;
+
+  if(!song){
+    miniAudio.removeAttribute("src");
+    miniPlay.innerText = "▶";
+    return;
+  }
+
+  const currentSrc = miniAudio.getAttribute("src") || "";
+
+  if(currentSrc !== song){
+    miniAudio.src = song;
+    miniAudio.load();
+  }
+
+  const applyTimeAndPlay = async () => {
+    if(savedTime && miniAudio.duration && savedTime < miniAudio.duration){
+      miniAudio.currentTime = savedTime;
+    }
+
+    miniDuration.innerText = formatTime(miniAudio.duration);
+
+    if(autoPlay || localStorage.getItem("isPlaying") === "true"){
+      try{
+        await miniAudio.play();
+        miniPlay.innerText = "⏸";
+        localStorage.setItem("isPlaying", "true");
+      }catch(err){
+        miniPlay.innerText = "▶";
+      }
+    }
+  };
+
+  if(miniAudio.readyState >= 1){
+    applyTimeAndPlay();
+  }else{
+    miniAudio.addEventListener("loadedmetadata", applyTimeAndPlay, {once:true});
+  }
+}
+
+
 function setupMiniPlayer(){
   try{
     miniWaveLength = miniWaveBase.getTotalLength();
@@ -182,46 +239,7 @@ function setupMiniPlayer(){
     miniWaveLength = 0;
   }
 
-  const defaultCover = localStorage.getItem("defaultCover") || "logo.jpg";
-
-  const song = localStorage.getItem("currentSong") || "";
-  const title = localStorage.getItem("currentTitle") || "Belum ada lagu";
-  const artist = localStorage.getItem("currentArtist") || "Pilih lagu";
-  let img = localStorage.getItem("currentImg") || defaultCover;
-
-  if(!img || img === "null" || img === "undefined"){
-    img = defaultCover;
-  }
-
-  const savedTime = parseFloat(localStorage.getItem("currentTime") || "0");
-
-  miniTitle.innerText = title;
-  miniArtist.innerText = artist;
-  miniCover.src = img;
-
-  if(song){
-    miniAudio.src = song;
-    miniAudio.load();
-
-    miniAudio.addEventListener("loadedmetadata", async () => {
-      if(savedTime && savedTime < miniAudio.duration){
-        miniAudio.currentTime = savedTime;
-      }
-
-      miniDuration.innerText = formatTime(miniAudio.duration);
-
-      if(localStorage.getItem("isPlaying") === "true"){
-        try{
-          await miniAudio.play();
-          miniPlay.innerText = "⏸";
-        }catch(err){
-          miniPlay.innerText = "▶";
-        }
-      }
-    }, {once:true});
-  }else{
-    miniPlay.innerText = "▶";
-  }
+  syncMiniPlayerFromStorage(false);
 }
 
 miniPlay.onclick = async () => {
@@ -331,10 +349,12 @@ setupMiniPlayer();
 loadTrending();
 
 
+
+
 window.addEventListener("pageshow", () => {
-  const song = localStorage.getItem("currentSong") || "";
-  if(song && miniAudio.src !== song){
-    miniAudio.src = song;
-    miniAudio.load();
-  }
+  syncMiniPlayerFromStorage(true);
+});
+
+window.addEventListener("focus", () => {
+  syncMiniPlayerFromStorage(false);
 });

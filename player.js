@@ -275,14 +275,20 @@ if(backHomeBtn){
     localStorage.setItem("currentTime", audio.currentTime || 0);
     localStorage.setItem("isPlaying", audio.paused ? "false" : "true");
 
-    if(document.referrer && document.referrer.includes("home.html")){
-      history.back();
-    }else{
-      window.location.href = "home.html";
-    }
+    window.location.href = "home.html";
   };
 }
 
 setupWave();
 setupPlayer();
 updateActionButtons();
+
+
+window.addEventListener("beforeunload", () => {
+  localStorage.setItem("currentTime", audio.currentTime || 0);
+  localStorage.setItem("isPlaying", audio.paused ? "false" : "true");
+  localStorage.setItem("currentTitle", title);
+  localStorage.setItem("currentArtist", artist);
+  localStorage.setItem("currentImg", img);
+  localStorage.setItem("currentSong", song);
+});
