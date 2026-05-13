@@ -42,7 +42,7 @@ async function getAudiusHost(){
   const data = await res.json();
 
   if(!data.data || !data.data.length){
-    throw new Error("Audius host tidak ditemukan");
+    throw new Error("Host tidak ditemukan");
   }
 
   audiusHost = data.data[0];
@@ -130,7 +130,7 @@ async function openPlayer(song){
 }
 
 async function loadTrending(){
-  sectionTitle.innerText = "Trending Audius";
+  sectionTitle.innerText = "Rekomendasi Untukmu";
   onlineResults.innerHTML = `<h2 style="padding:20px;">Loading trending...</h2>`;
 
   try{
@@ -140,12 +140,12 @@ async function loadTrending(){
     renderSongs(data.data || []);
   }catch(err){
     console.log(err);
-    onlineResults.innerHTML = `<h2 style="padding:20px;">Audius API Error</h2>`;
+    onlineResults.innerHTML = `<h2 style="padding:20px;">API Error</h2>`;
   }
 }
 
 async function searchSongs(query){
-  sectionTitle.innerText = "Hasil Pencarian Audius";
+  sectionTitle.innerText = "Hasil Pencarian";
   onlineResults.innerHTML = `<h2 style="padding:20px;">Loading...</h2>`;
 
   try{
@@ -155,7 +155,7 @@ async function searchSongs(query){
     renderSongs(data.data || []);
   }catch(err){
     console.log(err);
-    onlineResults.innerHTML = `<h2 style="padding:20px;">Pencarian Audius error</h2>`;
+    onlineResults.innerHTML = `<h2 style="padding:20px;">Pencarian error</h2>`;
   }
 }
 

@@ -5,7 +5,7 @@ let audiusHost = "";
 
 const song = params.get("song") || localStorage.getItem("currentSong") || "";
 const title = params.get("title") || localStorage.getItem("currentTitle") || "Tidak ada judul";
-const artist = params.get("artist") || localStorage.getItem("currentArtist") || "Audius";
+const artist = params.get("artist") || localStorage.getItem("currentArtist") || "HIPI3";
 const img = params.get("img") || localStorage.getItem("currentImg") || "";
 const songId = params.get("id") || localStorage.getItem("currentSongId") || "";
 
@@ -40,7 +40,7 @@ async function getAudiusHost(){
   const data = await res.json();
 
   if(!data.data || !data.data.length){
-    throw new Error("Audius host tidak ditemukan");
+    throw new Error("Host tidak ditemukan");
   }
 
   audiusHost = data.data[0];
@@ -67,7 +67,7 @@ async function getStreamUrl(id){
 function saveCurrent(data){
   localStorage.setItem("currentSong", data.song || "");
   localStorage.setItem("currentTitle", data.title || "Tidak ada judul");
-  localStorage.setItem("currentArtist", data.artist || "Audius");
+  localStorage.setItem("currentArtist", data.artist || "HIPI3");
   localStorage.setItem("currentImg", data.img || "");
   localStorage.setItem("currentSongId", data.id || "");
   localStorage.setItem("source", "audius");
